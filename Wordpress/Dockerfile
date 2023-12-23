@@ -1,10 +1,10 @@
-FROM debian:buster
+FROM debian:11
 
 EXPOSE 9000
 
 RUN apt update \
 	&& apt install -y wget \
-	php7.3 \
+	php7.4 \
 	php-fpm \
 	php-mysql \
 	mariadb-client
@@ -18,7 +18,7 @@ RUN cd /usr/local/bin/ \
 	&& chmod +x wp \
 	&& mkdir -p  /run/php
 
-COPY www.conf /etc/php/7.3/fpm/pool.d/
+COPY www.conf /etc/php/7.4/fpm/pool.d/
 
 COPY wp-config.sh /wp-config.sh
 
@@ -26,4 +26,4 @@ ENTRYPOINT [ "/bin/bash", "/wp-config.sh" ]
 
 COPY wp-config.php /wp-config.php
 
-CMD ["php-fpm7.3", "-F"]
+CMD ["php-fpm7.4", "-F"]

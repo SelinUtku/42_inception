@@ -1,9 +1,9 @@
-FROM debian:buster
+FROM debian:11
 
 EXPOSE 443
 
 RUN apt update \
-	&& apt install -y nginx  openssl
+	&& apt install -y nginx openssl
 
 RUN mkdir -p /ssl \
 	&& cd /ssl \
@@ -11,7 +11,7 @@ RUN mkdir -p /ssl \
 	&& openssl req -new -key nginx.key -out nginx.csr -subj "/C=DE/ST=Heilbronn /L=Heilbronn /O=42/CN=42heilbronn.com" \
 	&& openssl req -x509 -sha256 -days 365 -key nginx.key -in nginx.csr -out nginx.crt
 
-COPY nginx_conf /etc/nginx/conf.d/wp.conf
+COPY nginx.conf /etc/nginx/conf.d/wp.conf
 
 
 CMD ["nginx", "-g", "daemon off;"]

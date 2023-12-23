@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PATH=$PATH:/usr/bin
+# export PATH=$PATH:/usr/bin
 
 mkdir -p /var/run/mysqld
 chown -R mysql:mysql /var/run/mysqld
@@ -10,15 +10,13 @@ mysql_install_db --user=mysql --ldata=/var/lib/mysql/
 # Start MariaDB service
 mysqld --user=mysql &
 
-Wait until MariaDB is up
+# Wait until MariaDB is up
 until mysqladmin ping >/dev/null 2>&1; do
     echo -n "."; sleep 1
 done
 
-Create a database and grant privileges
-WP_DB="wordpress"
-WP_USER="wpuser"
-WP_PASS="wppassword"
+# Create a database and grant privileges
+
 
 if ! mysql -u root -e "USE $WP_DB" > /dev/null 2>&1;
 then
@@ -29,7 +27,6 @@ else
     echo "WARNING: Database '$WP_DB' already exists"
 fi
 
-wait
 # Stop MariaDB
 mysqladmin -u root shutdown
 

@@ -1,9 +1,9 @@
 
-FROM debian:buster
+FROM alpine:3.18
 
-RUN apt-get update && apt-get install -y mariadb-server mariadb-client
+RUN apk update && apk add mariadb mariadb-client
 
-COPY maria.cnf /etc/mysql/my.cnf
+COPY maria.cnf /etc/my.cnf
 
 COPY entrypoint.sh /entrypoint.sh
 
@@ -11,4 +11,4 @@ RUN chmod +x /entrypoint.sh
 
 EXPOSE 3306
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "./entrypoint.sh", "mysqld_safe"]

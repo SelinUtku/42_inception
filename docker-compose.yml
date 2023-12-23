@@ -5,7 +5,7 @@ services:
     build: ./mariadb
     image: mariadb
     env_file:
-      - .env
+      - mariadb/.maria_env
     volumes:
       - mariadb:/var/lib/mysql
     networks:
