@@ -1,13 +1,11 @@
 #!/bin/sh
 
-# export PATH=$PATH:/usr/bin
-
 mkdir -p /var/run/mysqld
 chown -R mysql:mysql /var/run/mysqld
 # Initialize MariaDB data directory
 mysql_install_db --user=mysql --ldata=/var/lib/mysql/
 
-# Start MariaDB service
+# Start MariaDB service in background
 mysqld --user=mysql &
 
 # Wait until MariaDB is up
@@ -16,7 +14,6 @@ until mysqladmin ping >/dev/null 2>&1; do
 done
 
 # Create a database and grant privileges
-
 
 if ! mysql -u root -e "USE $WP_DB" > /dev/null 2>&1;
 then
