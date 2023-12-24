@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  mariadb:
+    container_name: mariadb
+    build: 
+      context: ./mariadb
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - /home/sutku/data/mysql:/var/lib/mysql
+    networks:
+      - docker_network
+    restart: always
+  nginx:
+    container_name: nginx
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 443:443
+    depends_on: 
+      - wordpress
+    volumes:
+      - /home/sutku/data/wordpress:/var/www/html/wordpress
+    networks:
+      - docker_network
+    restart: always
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    volumes:
+      - /home/sutku/data/wordpress:/var/www/html/wordpress
+    networks:
+      - docker_network
+    restart: always
+
+networks:
+  docker_network:
