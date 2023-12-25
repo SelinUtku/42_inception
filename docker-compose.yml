@@ -3,7 +3,7 @@ version: "3"
 services:
   mariadb:
     container_name: mariadb
-    build: ./mariadb
+    build: ./requirements/mariadb
     image: mariadb
     env_file:
       - .env
@@ -14,7 +14,7 @@ services:
     restart: always
   nginx:
     container_name: nginx
-    build: ./nginx
+    build: ./requirements/nginx
     image: nginx
     env_file:
       - .env
@@ -29,7 +29,7 @@ services:
     restart: always
   wordpress:
     container_name: wordpress
-    build: ./wordpress
+    build: ./requirements/wordpress
     image: wordpress
     env_file:
       - .env

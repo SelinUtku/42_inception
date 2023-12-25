@@ -6,11 +6,23 @@
 #    By: sutku <sutku@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/19 14:45:54 by sutku             #+#    #+#              #
-#    Updated: 2023/12/25 00:08:56 by sutku            ###   ########.fr        #
+#    Updated: 2023/12/25 21:45:34 by sutku            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-COMPOSE_FILE = ./requirements/docker-compose.yml
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sutku <sutku@student.42heilbronn.de>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/12/19 14:45:54 by sutku             #+#    #+#              #
+#    Updated: 2023/12/24 17:32:07 by sutku            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+COMPOSE_FILE = ./docker-compose.yml
 
 DB_VOLUME = /home/sutku/data/mysql
 WP_VOLUME = /home/sutku/data/wordpress
@@ -31,15 +43,15 @@ prune:
 	@docker image prune -a
 	@docker volume prune
 
-fclean:
+down:
 	docker-compose -f $(COMPOSE_FILE) down
-	@sudo rm -rf $(DB_VOLUME)
-	@sudo rm -rf $(WP_VOLUME)
-	@sudo docker image rm -f nginx
-	@sudo docker image rm -f wordpress
-	@sudo docker image rm -f mariadb
+
+fclean:
+	@sudo make rm-volume
+	@sudo make prune
+	@sudo docker volume rm mariadb wordpress
 
 
-re: fclean run
+re: down fclean run
 	
-.PHONY: all run rm-volume prune fclean re
+.PHONY: all run rm-volume prune fclean re down
